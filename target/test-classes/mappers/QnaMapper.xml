@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="QnaMapper">
+	
+	<select id="totalCount" resultType="int" parameterType="ListData">
+  		select nvl(count(num),0) from qna
+  		<if test="kind == 'title'">
+  			where title  LIKE '%'||#{search}||'%'
+  		</if>
+  		<if test="kind =='writer'">
+  			where writer  LIKE '%'||#{search}||'%'
+  		</if>
+  		<if test="kind =='contents'">
+  			where contents LIKE '%'||#{search}||'%'
+  		</if>
+  	</select>
+	
+	<insert id="insert" parameterType="QnaDTO">
+		insert into qna values
+		(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, board_seq.currval, 0, 0)
+	</insert>  
+  
+  	<update id="update" parameterType="QnaDTO">
+  		update qna set title=#{title}, contents=#{contents} where num=#{num} 
+ 	</update>
+ 	
+ 	<delete id="delete" parameterType="int">
+ 		delete qna where num=#{num}
+ 	</delete>
+  
+  	<select id="selectOne" parameterType="int" resultType="QnaDTO">
+  		select * from qna where num=#{num}
+  	</select>
+  
+  	<select id="selectList" parameterType="ListData"  resultType="QnaDTO" >
+  		select * from
+  		(select rownum R, Q.* from
+  		(select * from qna 
+  		<if test="kind == 'title'">
+  			where title  LIKE '%'||#{search}||'%'
+  		</if>
+  		<if test="kind =='writer'">
+  			where writer  LIKE '%'||#{search}||'%'
+  		</if>
+  		<if test="kind =='contents'">
+  			where contents LIKE '%'||#{search}||'%'
+  		</if>
+  		
+  		order by ref desc, step asc) Q)
+  		where R between #{startRow} and #{lastRow}
+  	</select>
+  	
+	<update id="replyUpdate" parameterType="QnaDTO">
+		<![CDATA[update qna set step=step+1 where ref=#{ref} and step>#{step}]]>
+	</update>  
+	  
+	<insert id="replyInsert" parameterType="QnaDTO">
+		insert into qna values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, #{ref}, #{step}+1, #{depth}+1)
+	</insert>
+	  
+</mapper>
+  
+  
+  
+  
+  
+  
+  

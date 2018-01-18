@@ -9,6 +9,8 @@
 	Hello world!  
 </h1>
 
+	<a href="./notice/noticeList">NOTICE</a>
+	<a href="./qna/qnaList">QNA</a>
 <P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
