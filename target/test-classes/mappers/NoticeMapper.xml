@@ -38,17 +38,26 @@
   		where R between #{startRow} and #{lastRow}
   	</select>
   
-  	<select id ="selectOne" parameterType="int" resultType="NoticeDTO">
-  		select * from notice where num=#{num}
+  	<select id ="selectOne" parameterType="int" resultMap="NoticeDTO">
+  		select num number, writer w, title t, contents c, reg_date r, hit h from notice where num=#{num}
   	</select>
-	
-	<select id="num" resultType="int">
-		select board_seq.nextval from dual
-	</select>
+  	
+  	<resultMap type="NoticeDTO" id="noticeResult">
+  		<id property="num" column="number"/>
+  		<result property="writer" column="w"/>
+  		<result property="title" column="t"/>
+  		<result property="contents" column="c"/>
+  		<result property="reg_date" column="r"/>
+  		<result property="hit" column="h"/>
+  	</resultMap>
+  	
 	
 	<insert id="insert" parameterType="NoticeDTO">
+	<selectKey resultType="int" order="BEFORE" keyProperty="num">
+		select board_seq.nextval from dual
+	</selectKey>
 		insert into notice values
-		(board_seq.nextval, #{writer}, #{title}, #{contents}, sysdate, 0)
+		(#{num}, #{writer}, #{title}, #{contents}, sysdate, 0)
 	</insert>
 
 	<delete id="delete" parameterType="NoticeDTO">

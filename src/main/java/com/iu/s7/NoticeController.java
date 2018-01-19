@@ -3,11 +3,13 @@ package com.iu.s7;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iu.board.BoardDTO;
@@ -21,6 +23,11 @@ public class NoticeController {
 	
 	@Inject
 	private NoticeService noticeService;
+	
+	@RequestMapping(value="noticeView")
+	public ModelAndView selectOne(int num) throws Exception{
+		return noticeService.selectOne(num);
+	}
 	
 	@RequestMapping(value="noticeList")
 	public ModelAndView selectList(ListData listData) throws Exception{
@@ -41,8 +48,8 @@ public class NoticeController {
 	
 	
 	@RequestMapping(value="noticeWrite", method=RequestMethod.POST)
-	public ModelAndView insert(NoticeDTO noticeDTO) throws Exception{
-		int result=noticeService.insert(noticeDTO);
+	public ModelAndView insert(NoticeDTO noticeDTO, MultipartFile [] file, HttpSession session) throws Exception{
+		int result=noticeService.insert(noticeDTO, file, session);
 		//1.result.jsp
 		ModelAndView mv = new ModelAndView();
 		String message="FAIL";

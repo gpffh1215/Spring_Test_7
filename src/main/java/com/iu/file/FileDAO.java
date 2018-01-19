@@ -1,5 +1,7 @@
 package com.iu.file;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +18,9 @@ public class FileDAO {
 		return sqlSession.insert(NAMESPACE+"insert", fileDTO);
 	}
 	
+	public List<FileDTO> selectList(int num) throws Exception{
+		return sqlSession.selectList(NAMESPACE+"selectList", num);
+	}
 	
 	
 	

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.iu.board.BoardDTO;
 import com.iu.board.BoardService;
@@ -38,15 +39,18 @@ public class NoticeService implements BoardService {
 	}
 
 	@Override
-	public BoardDTO selectOne(int num) throws Exception {
-		return noticeDAO.selectOne(num);
+	public ModelAndView selectOne(int num) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		List<FileDTO> ar = fileDAO.selectList(num);
+		mv.addObject("fileList", ar);
+		mv.addObject("view", noticeDAO.selectOne(num));
+		mv.addObject("board", "notice");
+		mv.setViewName("board/boardView");
+		return mv;
 	}
-
 
 	@Override
 	public int insert(BoardDTO boardDTO, MultipartFile [] file, HttpSession session) throws Exception {
-		int num= noticeDAO.num();
-		boardDTO.setNum(num);
 		FileSaver fileSaver = new FileSaver();
 		String filepath = session.getServletContext().getRealPath("resources/upload");
 		System.out.println(filepath);
@@ -61,7 +65,7 @@ public class NoticeService implements BoardService {
 			FileDTO fileDTO = new FileDTO();
 			fileDTO.setFname(names.get(i));
 			fileDTO.setOname(file[i].getOriginalFilename());
-			fileDTO.setNum(num);
+			fileDTO.setNum(boardDTO.getNum());
 			fileDAO.insert(fileDTO);
 		}
 		return 1;

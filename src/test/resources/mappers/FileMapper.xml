@@ -9,6 +9,10 @@
   	</insert>
   	
   	
+  	<select id="selectList" parameterType="int" resultType="FileDTO">
+  		select * from files where num=#{num}
+  	</select>
+  	
   </mapper>
   
   

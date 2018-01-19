@@ -55,14 +55,16 @@
 		</tr>
 		<c:forEach items="${list}" var="dto">
 			<tr>
-				<td>${dto.num}</td>
-				<td>${dto.title}</td>
+			<td>
+				<a href="${board}View?num=${dto.num}">${dto.title}</a>
+				</td>
 				<td>${dto.writer}</td>
 				<td>${dto.reg_date}</td>
 				<td>${dto.hit}</td>
 			</tr>
 		</c:forEach>		
 	</table>
+	
 	<div>
 		<c:if test="${page.curBlock > 1}">
 			<span class="page" title="${page.startNum-1}">[이전]</span>
