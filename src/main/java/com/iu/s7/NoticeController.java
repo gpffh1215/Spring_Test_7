@@ -56,29 +56,5 @@ public class NoticeController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -32,6 +32,10 @@ public class NoticeDAO implements BoardDAO {
 		return sqlSession.selectOne(NAMESPACE+"selectOne", num);
 	}
 
+	public int num() throws Exception{
+		return sqlSession.selectOne(NAMESPACE+"num");
+	}
+	
 	@Override
 	public int insert(BoardDTO boardDTO) throws Exception {
 		return sqlSession.insert(NAMESPACE+"insert", boardDTO);
