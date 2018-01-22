@@ -39,14 +39,9 @@ public class NoticeService implements BoardService {
 	}
 
 	@Override
-	public ModelAndView selectOne(int num) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		List<FileDTO> ar = fileDAO.selectList(num);
-		mv.addObject("fileList", ar);
-		mv.addObject("view", noticeDAO.selectOne(num));
-		mv.addObject("board", "notice");
-		mv.setViewName("board/boardView");
-		return mv;
+	public BoardDTO selectOne(int num) throws Exception {
+		return noticeDAO.selectOne(num);
+
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class NoticeService implements BoardService {
 
 		List<String> names= fileSaver.saver(file, filepath);
 
-		for(int i = 0; i > names.size(); i++){
+		for(int i = 0; i < names.size(); i++){
 			FileDTO fileDTO = new FileDTO();
 			fileDTO.setFname(names.get(i));
 			fileDTO.setOname(file[i].getOriginalFilename());
@@ -77,8 +72,22 @@ public class NoticeService implements BoardService {
 	}
 
 	@Override
-	public int delete(int num) throws Exception {
-		return noticeDAO.delete(num);
+	public int delete(int num, HttpSession session) throws Exception {
+		String filepath = session.getServletContext().getRealPath("resources/upload");
+		List<FileDTO> ar = fileDAO.selectList(num);
+		int result= noticeDAO.delete(num);
+		result= fileDAO.delete(num);
+		
+		for(FileDTO fileDTO: ar){
+		try{
+			File file = new File(filepath, fileDTO.getFname());
+			file.delete();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}	
+		
+		return result;
 	}
 
 }

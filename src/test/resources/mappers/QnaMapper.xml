@@ -61,6 +61,10 @@
 		insert into qna values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, #{ref}, #{step}+1, #{depth}+1)
 	</insert>
 	  
+	<delete id="delete" parameterType="QnaDTO">
+		delete from qna where num=#{num}
+	</delete>
+	  
 </mapper>
   
   

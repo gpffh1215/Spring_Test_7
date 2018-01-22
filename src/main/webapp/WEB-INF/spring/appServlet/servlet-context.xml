@@ -15,10 +15,24 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
+	<!-- if view's name is following id, it works -->
+	<beans:bean class="com.iu.util.FileDown" id="fileDown">
+	
+	</beans:bean>
+
+
+	<!-- 뷰를 객체의 이름으로 resolver하겠다 -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/><!-- this will be first order -->
+	
+	</beans:bean>
+
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"/><!-- order는 우선순위라는 뜻 원래는 0인데 1이됨으로써 2순위가 됨 -->
 	</beans:bean>
 	
 	<context:component-scan base-package="com.iu.s7" />

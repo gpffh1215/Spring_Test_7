@@ -15,10 +15,11 @@
 	
 	<!-- 첨부파일 a 태그 사용 -->
 	<c:forEach items="${fileList}" var="file">
-		<a href="../resources/upload/${file.fname}">${file.oname}</a>	
+		<a href="../file/fileDown?fName=${file.fname}&oname=${file.oname}">${file.oname}</a>	
 	</c:forEach>
 	
-	
+	<a href="${board}Update?num=${vuew.num}">Update</a>
+	<a href="${board}Delete?num=${view.num}">Delete</a>	
 	
 	
 </body>

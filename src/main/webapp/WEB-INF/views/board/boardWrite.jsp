@@ -59,12 +59,8 @@
 		<div id="ex">
 			<input type="file" name="file"><span class="X">X</span>
 		</div>
-	
 	<button>BUTTON</button>
-	
 	</form>
-
-
 
 </body>
 </html>
