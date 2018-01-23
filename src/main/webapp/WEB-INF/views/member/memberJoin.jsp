@@ -7,6 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form  method="post">
+		ID <input name="id">
+		PW <input name="pw">
+		Name <input name="name">
+		Email<input name="email">
+		Phone<input name="phone">
+		Age<input name="age">
+		Job<input name="job">
+	</form>
 
 </body>
 </html>

@@ -30,7 +30,6 @@ public class NoticeController {
 		model.addAttribute("view", boardDTO);
 		model.addAttribute("board", "notice");
 		return "board/boardUpdate";
-
 	}
 	
 	
