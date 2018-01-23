@@ -1,5 +1,6 @@
 package com.iu.qna;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,14 +36,14 @@ public class QnaService implements BoardService {
 	}
 
 	@Override
-	public ModelAndView selectOne(int num) throws Exception {
+	public BoardDTO selectOne(int num) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<FileDTO> ar = fileDAO.selectList(num);
 		mv.addObject("fileList", ar);
 		mv.addObject("view", qnaDAO.selectOne(num));
 		mv.addObject("board", "qna");
 		mv.setViewName("board/boardView");
-		return mv;
+		return qnaDAO.selectOne(num);
 	}
 
 	@Override
@@ -56,8 +57,22 @@ public class QnaService implements BoardService {
 	}
 
 	@Override
-	public int delete(int num) throws Exception {
-		return qnaDAO.delete(num);
+	public int delete(int num, HttpSession session) throws Exception {
+		String filepath = session.getServletContext().getRealPath("resources/upload");
+		List<FileDTO> ar = fileDAO.selectList(num);
+		int result= qnaDAO.delete(num);
+		result= fileDAO.delete(num);
+		
+		for(FileDTO fileDTO: ar){
+		try{
+			File file = new File(filepath, fileDTO.getFname());
+			file.delete();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}	
+		
+		return result;
 	}
 	
 	public int replyInsert(BoardDTO boardDTO) throws Exception{
