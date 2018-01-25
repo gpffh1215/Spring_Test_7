@@ -1,11 +1,13 @@
 package com.iu.s7;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iu.member.MemberDTO;
@@ -17,6 +19,28 @@ public class MemberController {
 
 	@Inject
 	private MemberService memberService;
+	
+	@RequestMapping(value="memberUpdate", method=RequestMethod.GET)
+	public void memberUpdate(){}
+	
+	@RequestMapping(value="memberUpdate", method=RequestMethod.GET)
+	public ModelAndView memberUpdate(MemberDTO memberDTO, MultipartFile file, HttpSession session)throws Exception{
+		int result= memberService.memberUpdate(memberDTO, file, session);
+		String message="Update Fail";
+		if(result>0){
+			session.setAttribute("member", memberDTO);
+			message="Update Success";
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("message", message);
+		mv.addObject("path", "./memberView");
+		mv.setViewName("common/result");
+		
+		return mv;
+	}
+	
+	
+	
 	
 	@RequestMapping(value="memberJoin", method=RequestMethod.GET)
 	public String memberJoin(Model model) throws Exception{

@@ -19,8 +19,8 @@ public class MemberDAO {
 		
 	}
 
-	public void memberUpdate() throws Exception{
-		
+	public void memberUpdate(MemberDTO memberDTO) throws Exception{
+		return sqlSession.update(NAMESPACE+"update", memberDTO);
 	}
 	
 	public void memberDelete() throws Exception{
