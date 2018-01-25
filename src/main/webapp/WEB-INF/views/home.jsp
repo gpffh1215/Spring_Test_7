@@ -13,5 +13,9 @@
 	<a href="./qna/qnaList">QNA</a>
 	<a href="./member/memberJoin">MEMBERJOIN</a>
 <P>  The time on the server is ${serverTime}. </P>
+
+
+<a href="./transfer">TRANSPORT</a>
+
 </body>
 </html>
